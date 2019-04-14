@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.mymmm.club/"/>
-  <updated>2019-03-18T14:54:19.744Z</updated>
+  <updated>2019-04-14T12:06:01.376Z</updated>
   <id>http://www.mymmm.club/</id>
   
   <author>
@@ -17,11 +17,58 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>SQLyog连接报错 Error No.1130+No.2058 </title>
+    <link href="http://www.mymmm.club/2019/04/14/2019-04-14%20194428/"/>
+    <id>http://www.mymmm.club/2019/04/14/2019-04-14 194428/</id>
+    <published>2019-04-14T11:45:13.000Z</published>
+    <updated>2019-04-14T12:06:01.376Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="问题-1130"><a href="#问题-1130" class="headerlink" title="问题 1130"></a>问题 1130</h2><p>用docker 创建mysql容器，用桌面的第三方客户端SQLyog连接的时候出现<br>-&gt; 错误号码1130<br>-&gt; Host ‘172.17.0.1’ is not allowed to connect to this mysql server<br><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://amumu-1255870555.cos.ap-chengdu.myqcloud.com/20190410/20190414200209.png" alt title>                </div>                <div class="image-caption"></div>            </figure></p><p>说明是远程访问被拒绝，因为root默认的访问方式是localhost。</p><h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>windows 命令行:<br>    docker exec -it 6a bash    #此处6a为我已创建的容器ID前两位</p><p>进入容器后<br>    mysql</p><p>进入mysql后</p><pre><code>#修改localhost为%GRANT ALL PRIVILEGES ON *.* TO &apos;root&apos;@&apos;%&apos; IDENTIFIED BY &apos;root&apos; WITH GRANT OPTION;#刷新权限FLUSH PRIVILEGES;</code></pre><p>再次尝试SQLyog连接，结果出现错误号码2058</p><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>错误2058 plugin caching_sha2_password could not be loaded:<strong><em>**</em></strong><br><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://amumu-1255870555.cos.ap-chengdu.myqcloud.com/20190410/20190414200218.png" alt title>                </div>                <div class="image-caption"></div>            </figure><br>说明是密码加密规则不匹配</p><h2 id="解决-1"><a href="#解决-1" class="headerlink" title="解决"></a>解决</h2><p>重新进入MYSQL<br>执行</p><pre><code>#修改加密规则 ALTER USER&apos;root&apos;@&apos;localhost&apos; IDENTIFIED BY &apos;root&apos; PASSWORD EXPIRE NEVER; #更新一下用户的密码 ，注意root作为密码是不对的哦ALTER USER&apos;root&apos;@&apos;localhost&apos; IDENTIFIED WITH mysql_native_password BY &apos;root&apos;; #刷新权限FLUSH PRIVILEGES; </code></pre><p>再次尝试登陆成功。</p><p>建议创建新的账号给予有限的远程访问权限，而root只拥有本地访问权限。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;问题-1130&quot;&gt;&lt;a href=&quot;#问题-1130&quot; class=&quot;headerlink&quot; title=&quot;问题 1130&quot;&gt;&lt;/a&gt;问题 1130&lt;/h2&gt;&lt;p&gt;用docker 创建mysql容器，用桌面的第三方客户端SQLyog连接的时候出现&lt;br&gt;-&amp;gt;
+      
+    
+    </summary>
+    
+    
+      <category term="SQL" scheme="http://www.mymmm.club/tags/SQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>typecho 设置点击出现小桃心效果</title>
+    <link href="http://www.mymmm.club/2019/04/10/2019-04-10%20110312/"/>
+    <id>http://www.mymmm.club/2019/04/10/2019-04-10 110312/</id>
+    <published>2019-04-10T03:03:21.000Z</published>
+    <updated>2019-04-10T03:19:25.253Z</updated>
+    
+    <content type="html"><![CDATA[<p>typecho 设置点击出现小桃心效果</p><p>类似<a href="http://mymmm.club/2019/03/16/2019-03-16%20124919/" target="_blank" rel="noopener">http://mymmm.club/2019/03/16/2019-03-16%20124919/</a>这样的</p><p>想自己另一个基于typecho的网站也是有点击出现小桃心效果</p><p>所以整理了一下步骤如下</p><h2 id="新建clicklove-js文件"><a href="#新建clicklove-js文件" class="headerlink" title="新建clicklove.js文件"></a>新建clicklove.js文件</h2><p>在typecho\admin\js目录下创建clicklove.js文件，并将下列代码复制进去</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!function(e,t,a)&#123;function n()&#123;c(&quot;.heart&#123;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);&#125;.heart:after,.heart:before&#123;content: &apos;&apos;;width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;&#125;.heart:after&#123;top: -5px;&#125;.heart:before&#123;left: -5px;&#125;&quot;),o(),r()&#125;function r()&#123;for(var e=0;e&lt;d.length;e++)d[e].alpha&lt;=0?(t.body.removeChild(d[e].el),d.splice(e,1)):(d[e].y--,d[e].scale+=.004,d[e].alpha-=.013,d[e].el.style.cssText=&quot;left:&quot;+d[e].x+&quot;px;top:&quot;+d[e].y+&quot;px;opacity:&quot;+d[e].alpha+&quot;;transform:scale(&quot;+d[e].scale+&quot;,&quot;+d[e].scale+&quot;) rotate(45deg);background:&quot;+d[e].color+&quot;;z-index:99999&quot;);requestAnimationFrame(r)&#125;function o()&#123;var t=&quot;function&quot;==typeof e.onclick&amp;&amp;e.onclick;e.onclick=function(e)&#123;t&amp;&amp;t(),i(e)&#125;&#125;function i(e)&#123;var a=t.createElement(&quot;div&quot;);a.className=&quot;heart&quot;,d.push(&#123;el:a,x:e.clientX-5,y:e.clientY-5,scale:1,alpha:1,color:s()&#125;),t.body.appendChild(a)&#125;function c(e)&#123;var a=t.createElement(&quot;style&quot;);a.type=&quot;text/css&quot;;try&#123;a.appendChild(t.createTextNode(e))&#125;catch(t)&#123;a.styleSheet.cssText=e&#125;t.getElementsByTagName(&quot;head&quot;)[0].appendChild(a)&#125;function s()&#123;return&quot;rgb(&quot;+~~(255*Math.random())+&quot;,&quot;+~~(255*Math.random())+&quot;,&quot;+~~(255*Math.random())+&quot;)&quot;&#125;var d=[];e.requestAnimationFrame=function()&#123;return e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||function(e)&#123;setTimeout(e,1e3/60)&#125;&#125;(),n()&#125;(window,document);</span><br></pre></td></tr></table></figure><h2 id="在主页面代码中插入js文件"><a href="#在主页面代码中插入js文件" class="headerlink" title="在主页面代码中插入js文件"></a>在主页面代码中插入js文件</h2><p>打开所用主题目录下的header.php文件</p><p>(我用的是默认的主题，因此目录为typecho\usr\themes\default)</p><p>在head标签中插入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;/admin/js/clicklove.js&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure></p><p>像这样</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://amumu-1255870555.cos.ap-chengdu.myqcloud.com/20190410/20190410111848.png" alt title>                </div>                <div class="image-caption"></div>            </figure><p>完事</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;typecho 设置点击出现小桃心效果&lt;/p&gt;
+&lt;p&gt;类似&lt;a href=&quot;http://mymmm.club/2019/03/16/2019-03-16%20124919/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://mymmm.club
+      
+    
+    </summary>
+    
+    
+      <category term="建站" scheme="http://www.mymmm.club/tags/%E5%BB%BA%E7%AB%99/"/>
+    
+  </entry>
+  
+  <entry>
     <title>intellij 激活</title>
-    <link href="http://www.mymmm.club/2019/03/18/intellij%20%E6%BF%80%E6%B4%BB/"/>
-    <id>http://www.mymmm.club/2019/03/18/intellij 激活/</id>
-    <published>2019-03-18T14:42:22.876Z</published>
-    <updated>2019-03-18T14:54:19.744Z</updated>
+    <link href="http://www.mymmm.club/2019/04/06/2019-04-06%20201713/"/>
+    <id>http://www.mymmm.club/2019/04/06/2019-04-06 201713/</id>
+    <published>2019-04-06T12:17:13.000Z</published>
+    <updated>2019-04-06T12:17:17.124Z</updated>
     
     <content type="html"><![CDATA[<h3 id="阻止软件连接服务器"><a href="#阻止软件连接服务器" class="headerlink" title="阻止软件连接服务器"></a>阻止软件连接服务器</h3><p>在host文件中添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0.0.0.0account.jetbrains.com</span><br></pre></td></tr></table></figure></p><p>然后打开cmd窗口，执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipconfig /flushdns</span><br></pre></td></tr></table></figure></p><p>hosts文件位置：C:\Windows\System32\drivers\etc</p><h3 id="添加注册码在本机成功注册"><a href="#添加注册码在本机成功注册" class="headerlink" title="添加注册码在本机成功注册"></a>添加注册码在本机成功注册</h3><p>注册码在网上有很多的，此处列举一个<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2RRJMBXW33-eyJsaWNlbnNlSWQiOiIyUlJKTUJYVzMzIiwibGljZW5zZWVOYW1lIjoi5b285bK4IHNvZnR3YXJlMiIsImFzc2lnbmVlTmFtZSI6IiIsImFzc2lnbmVlRW1haWwiOiIiLCJsaWNlbnNlUmVzdHJpY3Rpb24iOiJGb3IgZWR1Y2F0aW9uYWwgdXNlIG9ubHkiLCJjaGVja0NvbmN1cnJlbnRVc2UiOmZhbHNlLCJwcm9kdWN0cyI6W3siY29kZSI6IklJIiwicGFpZFVwVG8iOiIyMDE5LTA3LTA3In0seyJjb2RlIjoiUlMwIiwicGFpZFVwVG8iOiIyMDE5LTA3LTA3In0seyJjb2RlIjoiV1MiLCJwYWlkVXBUbyI6IjIwMTktMDctMDcifSx7ImNvZGUiOiJSRCIsInBhaWRVcFRvIjoiMjAxOS0wNy0wNyJ9LHsiY29kZSI6IlJDIiwicGFpZFVwVG8iOiIyMDE5LTA3LTA3In0seyJjb2RlIjoiREMiLCJwYWlkVXBUbyI6IjIwMTktMDctMDcifSx7ImNvZGUiOiJEQiIsInBhaWRVcFRvIjoiMjAxOS0wNy0wNyJ9LHsiY29kZSI6IlJNIiwicGFpZFVwVG8iOiIyMDE5LTA3LTA3In0seyJjb2RlIjoiRE0iLCJwYWlkVXBUbyI6IjIwMTktMDctMDcifSx7ImNvZGUiOiJBQyIsInBhaWRVcFRvIjoiMjAxOS0wNy0wNyJ9LHsiY29kZSI6IkRQTiIsInBhaWRVcFRvIjoiMjAxOS0wNy0wNyJ9LHsiY29kZSI6IkdPIiwicGFpZFVwVG8iOiIyMDE5LTA3LTA3In0seyJjb2RlIjoiUFMiLCJwYWlkVXBUbyI6IjIwMTktMDctMDcifSx7ImNvZGUiOiJDTCIsInBhaWRVcFRvIjoiMjAxOS0wNy0wNyJ9LHsiY29kZSI6IlBDIiwicGFpZFVwVG8iOiIyMDE5LTA3LTA3In0seyJjb2RlIjoiUlNVIiwicGFpZFVwVG8iOiIyMDE5LTA3LTA3In1dLCJoYXNoIjoiOTUyNzQwMS8wIiwiZ3JhY2VQZXJpb2REYXlzIjowLCJhdXRvUHJvbG9uZ2F0ZWQiOmZhbHNlLCJpc0F1dG9Qcm9sb25nYXRlZCI6ZmFsc2V9-WBR8xuiXaXLeV0obFYbBfUUQ02r54Vj3fE9ImtuXKSP+NuvvnR6lH6gWcVm9PZt67eqdDZa+Deej1NsoGRPDZS5UB6WEt4YVahlOhmG3rgvXPlP98hsfgFUcjr3OQVY7wk5slJ+Q2G9lkpsqwezO+SFIk9yA6pjxyT+U7FjpU8SY5ilsHskq4FG8FoKPYLsfsuwtXrJimRBxVcDClw/QsnCSwgtjuunc8Te37rHb08ZAxtJJieIsjhWnnzrQ3LmxmsR4xstkZOSqD4bYgeNz+m2nbmCWJ5lfP+pnqWfSsUCVri2TUxTpzzTMe4Cx8UhGeJgIgUyBXjq05/0nq3YoVg==-MIIEPjCCAiagAwIBAgIBBTANBgkqhkiG9w0BAQsFADAYMRYwFAYDVQQDDA1KZXRQcm9maWxlIENBMB4XDTE1MTEwMjA4MjE0OFoXDTE4MTEwMTA4MjE0OFowETEPMA0GA1UEAwwGcHJvZDN5MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxcQkq+zdxlR2mmRYBPzGbUNdMN6OaXiXzxIWtMEkrJMO/5oUfQJbLLuMSMK0QHFmaI37WShyxZcfRCidwXjot4zmNBKnlyHodDij/78TmVqFl8nOeD5+07B8VEaIu7c3E1N+e1doC6wht4I4+IEmtsPAdoaj5WCQVQbrI8KeT8M9VcBIWX7fD0fhexfg3ZRt0xqwMcXGNp3DdJHiO0rCdU+Itv7EmtnSVq9jBG1usMSFvMowR25mju2JcPFp1+I4ZI+FqgR8gyG8oiNDyNEoAbsR3lOpI7grUYSvkB/xVy/VoklPCK2h0f0GJxFjnye8NT1PAywoyl7RmiAVRE/EKwIDAQABo4GZMIGWMAkGA1UdEwQCMAAwHQYDVR0OBBYEFGEpG9oZGcfLMGNBkY7SgHiMGgTcMEgGA1UdIwRBMD+AFKOetkhnQhI2Qb1t4Lm0oFKLl/GzoRykGjAYMRYwFAYDVQQDDA1KZXRQcm9maWxlIENBggkA0myxg7KDeeEwEwYDVR0lBAwwCgYIKwYBBQUHAwEwCwYDVR0PBAQDAgWgMA0GCSqGSIb3DQEBCwUAA4ICAQC9WZuYgQedSuOc5TOUSrRigMw4/+wuC5EtZBfvdl4HT/8vzMW/oUlIP4YCvA0XKyBaCJ2iX+ZCDKoPfiYXiaSiH+HxAPV6J79vvouxKrWg2XV6ShFtPLP+0gPdGq3x9R3+kJbmAm8w+FOdlWqAfJrLvpzMGNeDU14YGXiZ9bVzmIQbwrBA+c/F4tlK/DV07dsNExihqFoibnqDiVNTGombaU2dDup2gwKdL81ua8EIcGNExHe82kjF4zwfadHk3bQVvbfdAwxcDy4xBjs3L4raPLU3yenSzr/OEur1+jfOxnQSmEcMXKXgrAQ9U55gwjcOFKrgOxEdek/Sk1VfOjvS+nuM4eyEruFMfaZHzoQiuw4IqgGc45ohFH0UUyjYcuFxxDSU9lMCv8qdHKm+wnPRb0l9l5vXsCBDuhAGYD6ss+Ga+aDY6f/qXZuUCEUOH3QUNbbCUlviSz6+GiRnt1kA9N2Qachl+2yBfaqUqr8h7Z2gsx5LcIf5kYNsqJ0GavXTVyWh7PYiKX4bs354ZQLUwwa/cG++2+wNWP+HtBhVxMRNTdVhSm38AknZlD+PTAsWGu9GyLmhti2EnVwGybSD2Dxmhxk3IPCkhKAK+pl0eWYGZWG3tJ9mZ7SowcXLWDFAk0lRJnKGFMTggrWjV8GYpw5bq23VmIqqDLgkNzuoog==</span><br></pre></td></tr></table></figure></p><p>-&gt; 注册码来自<code>https://blog.csdn.net/qq_33733970/article/details/79251120</code></p>]]></content>
     
@@ -40,26 +87,236 @@
   </entry>
   
   <entry>
-    <title>这是一篇新的文章</title>
-    <link href="http://www.mymmm.club/2019/03/16/%E8%BF%99%E6%98%AF%E4%B8%80%E7%AF%87%E6%96%B0%E7%9A%84%E6%96%87%E7%AB%A0/"/>
-    <id>http://www.mymmm.club/2019/03/16/这是一篇新的文章/</id>
-    <published>2019-03-16T04:49:19.000Z</published>
-    <updated>2019-03-17T12:34:48.676Z</updated>
+    <title>visual studio Community 2017 许可证已过期 无法下载许可证</title>
+    <link href="http://www.mymmm.club/2019/04/06/2019-04-06%20201303/"/>
+    <id>http://www.mymmm.club/2019/04/06/2019-04-06 201303/</id>
+    <published>2019-04-06T12:13:03.000Z</published>
+    <updated>2019-04-06T12:27:34.347Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="嗯"><a href="#嗯" class="headerlink" title="嗯"></a>嗯</h2><p>没有任何内容</p>]]></content>
+    <content type="html"><![CDATA[<p>显示 ，许可证已过期 </p><p><img src="http://upload-images.jianshu.io/upload_images/949864-d7e28ed39bc14923.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="过期"></p><p>，然后点击更新的许可证</p><p>结果也是</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="http://upload-images.jianshu.io/upload_images/949864-b1138cc2450faa4c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="无法下载许可证" title>                </div>                <div class="image-caption">无法下载许可证</div>            </figure><p>无法下载许可证</p><p>解决方法如下<br>1.更新到最新版本（极度推荐）<br>或者<br>2.翻墙注销后再次登陆<br>或者<br>3.打开visual studio instanll 点击修复</p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;h2 id=&quot;嗯&quot;&gt;&lt;a href=&quot;#嗯&quot; class=&quot;headerlink&quot; title=&quot;嗯&quot;&gt;&lt;/a&gt;嗯&lt;/h2&gt;&lt;p&gt;没有任何内容&lt;/p&gt;
-
+        &lt;p&gt;显示 ，许可证已过期 &lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://upload-images.jianshu.io/upload_images/949864-d7e28ed39bc14923.png?imageMogr2/auto-orient/strip%7Cima
       
     
     </summary>
     
     
-      <category term="first" scheme="http://www.mymmm.club/tags/first/"/>
+      <category term="C#" scheme="http://www.mymmm.club/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C#使用ExcelLibrary导出xls文件出现&#39;发现***.xls中的部分内容有问题。是否让我们尽量尝试恢复？&#39;</title>
+    <link href="http://www.mymmm.club/2019/04/06/2019-04-06%20201219/"/>
+    <id>http://www.mymmm.club/2019/04/06/2019-04-06 201219/</id>
+    <published>2019-04-06T12:12:19.000Z</published>
+    <updated>2019-04-06T12:27:37.546Z</updated>
+    
+    <content type="html"><![CDATA[<p>因为一些业务需求，需要将DataSet导出为excel表，从网上查的使用ExcelLibrary可行，但实际测试中总是出现“发现***.xls中的部分内容有问题。是否让我们尽量尝试恢复？如果您信任此工作薄的源，请单击是”的问题，我使用的是office2016。</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="http://upload-images.jianshu.io/upload_images/949864-55e0cfd7ff99aed2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="错误信息" title>                </div>                <div class="image-caption">错误信息</div>            </figure><p>结果无论选择是或否都无响应。<br>后来与自己用excel新建的相同数据的表相对比，发现ExcelLibrary导出的文件非常小，考虑是数据数量问题，干脆直接写入了300行，结果导出文件就能打开了<br>回来经过几次测试，发现这个库存在 一个最小 容量 的问题，具体是多少我也没测试<br>不过我用以下的代码导出的数据是可以正常导出的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">string fileName = &quot;D:\\amumu.xls&quot;;</span><br><span class="line">Workbook workbook = new Workbook();</span><br><span class="line">Worksheet ws = new Worksheet(&quot;amumu&quot;);</span><br><span class="line">for (int j = 0; j &lt; 10; j++)</span><br><span class="line">&#123;</span><br><span class="line">    for (int i = 0; i &lt; 10; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        ws.Cells[i, j] = new Cell(&quot;这是第&quot; + i + &quot;行，第&quot; + j + &quot;列&quot;);</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line">workbook.Worksheets.Add(ws);</span><br><span class="line">workbook.Save(fileName);</span><br><span class="line">Close();</span><br></pre></td></tr></table></figure></p><p>具体是多少就需要大家自己尝试了。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;因为一些业务需求，需要将DataSet导出为excel表，从网上查的使用ExcelLibrary可行，但实际测试中总是出现“发现***.xls中的部分内容有问题。是否让我们尽量尝试恢复？如果您信任此工作薄的源，请单击是”的问题，我使用的是office2016。&lt;/p&gt;
+&lt;f
+      
+    
+    </summary>
+    
+    
+      <category term="C#" scheme="http://www.mymmm.club/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>sql server 安装遇到跨语言安装失败</title>
+    <link href="http://www.mymmm.club/2019/04/06/2019-04-06%20201052/"/>
+    <id>http://www.mymmm.club/2019/04/06/2019-04-06 201052/</id>
+    <published>2019-04-06T12:10:52.000Z</published>
+    <updated>2019-04-06T12:27:40.310Z</updated>
+    
+    <content type="html"><![CDATA[<p>安装的时候注意别关SQL serveran安装中心，会各种失败，就行了<br><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="http://upload-images.jianshu.io/upload_images/949864-1713a962e2ed9485.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png" title>                </div>                <div class="image-caption">Paste_Image.png</div>            </figure></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;安装的时候注意别关SQL serveran安装中心，会各种失败，就行了&lt;br&gt;&lt;figure class=&quot;image-bubble&quot;&gt;
+                &lt;div class=&quot;img-lightbox&quot;&gt;
+                    &lt;div 
+      
+    
+    </summary>
+    
+    
+      <category term="sql" scheme="http://www.mymmm.club/tags/sql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>centos sha-dow-sock-s 安装</title>
+    <link href="http://www.mymmm.club/2019/04/06/2019-04-06%20200949/"/>
+    <id>http://www.mymmm.club/2019/04/06/2019-04-06 200949/</id>
+    <published>2019-04-06T12:08:50.000Z</published>
+    <updated>2019-04-06T12:27:43.070Z</updated>
+    
+    <content type="html"><![CDATA[<p>每次装都到处搜攻略<br>所以自己记录一下</p><ol><li><p>安装wget</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install wget</span><br></pre></td></tr></table></figure></li><li><p>装SS</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate -O shadowsocks.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks.sh</span><br></pre></td></tr></table></figure></li><li><p>运行</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x shadowsocks.sh</span><br></pre></td></tr></table></figure></li></ol><p>4.配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./shadowsocks.sh 2&gt;&amp;1 | tee shadowsocks.log</span><br></pre></td></tr></table></figure></p><p>如果以后想查看，也可以随时用命令进入/root路径下，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;wbr&gt;shadowsocks.log</span><br></pre></td></tr></table></figure></p><p>查看IP地址，端口号，密码，以及加密方法等。以后在客户端要用到这些参数的，要记牢。</p><p>查看是否已经安装成功</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">service shadowsocks status # 查看状态</span><br><span class="line"> # 或者</span><br><span class="line">ps -ef | grep ss-server或者ps -A | grep ss-server</span><br></pre></td></tr></table></figure><h3 id="其它以后有可能用到的命令："><a href="#其它以后有可能用到的命令：" class="headerlink" title="其它以后有可能用到的命令："></a>其它以后有可能用到的命令：</h3><h3 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /tmp # 进入 shadowsocks.sh 所在目录 </span><br><span class="line">./shadowsocks.sh uninstall</span><br></pre></td></tr></table></figure><h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">service shadowsocks status # 查看状态</span><br><span class="line">service shadowsocks start # 启动 </span><br><span class="line">service shadowsocks stop # 停止 </span><br><span class="line">service shadowsocks restart # 重启</span><br></pre></td></tr></table></figure><h3 id="如果以后你需要更改-shadowsock-的配置"><a href="#如果以后你需要更改-shadowsock-的配置" class="headerlink" title="如果以后你需要更改 shadowsock 的配置"></a>如果以后你需要更改 shadowsock 的配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/shadowsocks.json</span><br></pre></td></tr></table></figure><p>查看端口在占用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -nap | grep 1080</span><br></pre></td></tr></table></figure></p><p>shandowsocksR安装方法类似<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install -y wget</span><br><span class="line">wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocksR.sh</span><br><span class="line">chmod +x shadowsocksR.sh</span><br><span class="line">./shadowsocksR.sh 2&gt;&amp;1 | tee shadowsocksR.log</span><br></pre></td></tr></table></figure></p><p>SS或SSR安装了之后需安装BBR提速，很重要<br>如果是 CentOS 系统，执行如下命令即可升级内核<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install kernel-ml kernel-ml-devel</span><br></pre></td></tr></table></figure></p><p>root运行：<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh &amp;&amp; chmod +x bbr.sh &amp;&amp; ./bbr.sh</span><br></pre></td></tr></table></figure></p><p>安装完成后，脚本会提示需要重启 VPS，输入 y 并回车后重启。<br>重启完成后，进入 VPS，<br>执行 <figure class="highlight plain"><figcaption><span>net.ipv4.tcp_available_congestion_control```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">如果结果中有bbr, 则证明你的内核已开启bbr</span><br><span class="line">执行 ```lsmod | grep bbr</span><br></pre></td></tr></table></figure></p><p>看到有 tcp_bbr 模块即说明bbr已启动</p><p>附上防火墙配置,似乎用不到</p><p>1、firewalld的基本使用<br>启动： systemctl start firewalld<br>关闭： systemctl stop firewalld<br>查看状态： systemctl status firewalld<br>开机禁用  ： systemctl disable firewalld<br>开机启用  ： systemctl enable firewalld</p><p>2.systemctl是CentOS7的服务管理工具中主要的工具，它融合之前service和chkconfig的功能于一体。<br>启动一个服务：systemctl start firewalld.service<br>关闭一个服务：systemctl stop firewalld.service<br>重启一个服务：systemctl restart firewalld.service<br>显示一个服务的状态：systemctl status firewalld.service<br>在开机时启用一个服务：systemctl enable firewalld.service<br>在开机时禁用一个服务：systemctl disable firewalld.service<br>查看服务是否开机启动：systemctl is-enabled firewalld.service<br>查看已启动的服务列表：systemctl list-unit-files|grep enabled<br>查看启动失败的服务列表：systemctl –failed</p><p>3.配置firewalld-cmd</p><p>查看版本： firewall-cmd –version<br>查看帮助： firewall-cmd –help<br>显示状态： firewall-cmd –state<br>查看所有打开的端口： firewall-cmd –zone=public –list-ports<br>更新防火墙规则： firewall-cmd –reload<br>查看区域信息:  firewall-cmd –get-active-zones<br>查看指定接口所属区域： firewall-cmd –get-zone-of-interface=eth0<br>拒绝所有包：firewall-cmd –panic-on<br>取消拒绝状态： firewall-cmd –panic-off<br>查看是否拒绝： firewall-cmd –query-panic</p><p>那怎么开启一个端口呢<br>添加<br>firewall-cmd –zone=public –add-port=80/tcp –permanent    （–permanent永久生效，没有此参数重启后失效）<br>重新载入<br>firewall-cmd –reload<br>查看<br>firewall-cmd –zone= public –query-port=80/tcp<br>删除<br>firewall-cmd –zone= public –remove-port=80/tcp –permanent</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;每次装都到处搜攻略&lt;br&gt;所以自己记录一下&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;安装wget&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;
+      
+    
+    </summary>
+    
+    
+      <category term="shadowsock" scheme="http://www.mymmm.club/tags/shadowsock/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>DNMP (docker+nginx+mysql+php)环境搭建</title>
+    <link href="http://www.mymmm.club/2019/04/06/2019-04-06%20200801/"/>
+    <id>http://www.mymmm.club/2019/04/06/2019-04-06 200801/</id>
+    <published>2019-04-06T12:08:01.000Z</published>
+    <updated>2019-04-06T12:27:46.045Z</updated>
+    
+    <content type="html"><![CDATA[<p>在github上面找一键DNMP安装程序<br>例如这个 <a href="https://github.com/yeszao/dnmp" target="_blank" rel="noopener">https://github.com/yeszao/dnmp</a></p><h2 id="安装组件"><a href="#安装组件" class="headerlink" title="安装组件"></a>安装组件</h2><p>由于要求安装<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">所以先执行</span><br></pre></td></tr></table></figure></p><p>apt-get update<br>apt-get install git<br>apt-get install docker<br>apt-get install docker-compose<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## 使用git下载完整代码</span><br></pre></td></tr></table></figure></p><p>git clone <a href="https://github.com/yeszao/dnmp.git" target="_blank" rel="noopener">https://github.com/yeszao/dnmp.git</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 启动容器</span><br></pre></td></tr></table></figure></p><p>cd dnmp<br>cp env.sample .env    # Windows系统请用copy命令，或者用编辑器打开后另存为.env<br>docker-compose up<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 访问</span><br><span class="line">*   [http://localhost](http://localhost/)： 默认*http*站点</span><br><span class="line">*   [https://localhost](https://localhost/)：自定义证书*https*站点，访问时浏览器会有安全提示，忽略提示访问即可</span><br><span class="line">两个站点使用同一PHP代码：./www/localhost/index.php。</span><br><span class="line"></span><br><span class="line">要修改端口、日志文件位置、以及是否替换source.list文件等，请修改.env文件，然后重新构建：</span><br></pre></td></tr></table></figure></p><p>docker-compose build php54    # 重建单个服务<br>docker-compose build          # 重建全部服务<br><code>`</code></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在github上面找一键DNMP安装程序&lt;br&gt;例如这个 &lt;a href=&quot;https://github.com/yeszao/dnmp&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/yeszao/dnmp&lt;/a&gt;&lt;/
+      
+    
+    </summary>
+    
+    
+      <category term="php" scheme="http://www.mymmm.club/tags/php/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Apache 同IP多域名配置</title>
+    <link href="http://www.mymmm.club/2019/04/06/2019-04-06%20200508/"/>
+    <id>http://www.mymmm.club/2019/04/06/2019-04-06 200508/</id>
+    <published>2019-04-06T12:04:58.000Z</published>
+    <updated>2019-04-06T12:27:10.834Z</updated>
+    
+    <content type="html"><![CDATA[<p>#目的<br>我有一个vps，上面安装了一个Wamp（集成PHP+Apache+Mysql环境），放了一个wordpress站点，配置域名为aaaa.com。<br>现在想再放一个hexo的静态博客，配置域名为bbbb.com。<br>但这两个站点都会监听80端口，就必须在apache中进行相关配置，才不会冲突。</p><p>#方法<br>打开apache根目录的<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">原本的配置为</span><br></pre></td></tr></table></figure></p><p>#aaaa.com</p><p><virtualhost *:80><br>    ServerName <a href="http://www.aaaa.com" target="_blank" rel="noopener">www.aaaa.com</a><br>    ServerAlias aaaa.cn aaaa.net<br>    DocumentRoot C:/wordpress<br>    <directory "c: wordpress "><br>        Options +Indexes +Includes +FollowSymLinks +MultiViews<br>        AllowOverride All<br>        Require all granted<br>    </directory><br></virtualhost><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">其中ServerName 为默认域名，指代请求头中的网址</span><br><span class="line">ServerAlias 为重定向域名，会将```aaaa.cn aaaa.net```等域名重定向为默认域名。</span><br><span class="line">现添加bbbb.com信息</span><br></pre></td></tr></table></figure></p><p>#bbbb.com</p><p><virtualhost *:80><br>    ServerName <a href="http://www.bbbb.com" target="_blank" rel="noopener">www.bbbb.com</a><br>    ServerAlias bbbb.cn bbbb.net<br>    DocumentRoot C:/hexo<br>    <directory "c: hexo "><br>        Options +Indexes +Includes +FollowSymLinks +MultiViews<br>        AllowOverride All<br>        Require all granted<br>    </directory><br></virtualhost><br><code>`</code><br>然后重启Apache即可。<br>Apache会解析请求头中的域名，判断执行哪一个策略，从而达到了目的。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;#目的&lt;br&gt;我有一个vps，上面安装了一个Wamp（集成PHP+Apache+Mysql环境），放了一个wordpress站点，配置域名为aaaa.com。&lt;br&gt;现在想再放一个hexo的静态博客，配置域名为bbbb.com。&lt;br&gt;但这两个站点都会监听80端口，就必须在
+      
+    
+    </summary>
+    
+    
+      <category term="Apache" scheme="http://www.mymmm.club/tags/Apache/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field ***</title>
+    <link href="http://www.mymmm.club/2019/04/06/2019-04-06%20194405/"/>
+    <id>http://www.mymmm.club/2019/04/06/2019-04-06 194405/</id>
+    <published>2019-04-06T11:44:05.000Z</published>
+    <updated>2019-04-06T11:52:31.213Z</updated>
+    
+    <content type="html"><![CDATA[<p>在调试公众号消息时，一直出现这个，原POJO为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class MessageText &#123;</span><br><span class="line">    </span><br><span class="line">    private String ToUserName;</span><br><span class="line">    private String fromUserName;</span><br><span class="line">    ******</span><br><span class="line">    //get()  set()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>错误信息为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field &quot;FromUserName&quot; (class club.fff.sss.MessageText), not marked as ignorable (2 known properties: &quot;content&quot;, &quot;ToUserName&quot;])</span><br></pre></td></tr></table></figure></p><p>查了很久资料解决了，方法是在每一个属性上加入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@JacksonXmlProperty(localName = &quot;ToUserName&quot;)</span><br></pre></td></tr></table></figure></p><p>如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class MessageText &#123;</span><br><span class="line">    @JacksonXmlProperty(localName = &quot;ToUserName&quot;)</span><br><span class="line">    private String ToUserName;</span><br><span class="line">    @JacksonXmlProperty(localName = &quot;FormUserName&quot;)</span><br><span class="line">    private String fromUserName;</span><br><span class="line">    ******</span><br><span class="line">    //get()  set()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>即可。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在调试公众号消息时，一直出现这个，原POJO为&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=
+      
+    
+    </summary>
+    
+    
+      <category term="springboot" scheme="http://www.mymmm.club/tags/springboot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mapper</title>
+    <link href="http://www.mymmm.club/2019/04/06/mapper/"/>
+    <id>http://www.mymmm.club/2019/04/06/mapper/</id>
+    <published>2019-04-06T11:44:05.000Z</published>
+    <updated>2019-04-06T11:44:05.094Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>org.apache.ibatis.binding.BindingException: Invalid bound statement (not found)</title>
+    <link href="http://www.mymmm.club/2019/04/01/2019-04-01%20194405/"/>
+    <id>http://www.mymmm.club/2019/04/01/2019-04-01 194405/</id>
+    <published>2019-04-01T11:44:05.000Z</published>
+    <updated>2019-04-06T12:17:57.204Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://upload-images.jianshu.io/upload_images/949864-be80d0a7d3d7f222.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png" title>                </div>                <div class="image-caption">image.png</div>            </figure><p>根据<br><a href="https://www.cnblogs.com/yucongblog/p/7550590.html" target="_blank" rel="noopener">https://www.cnblogs.com/yucongblog/p/7550590.html</a><br>排查</p><p>1.mapper接口和mapper.xml是否在同一个包（package)下？名字是否一样（仅后缀不同）？<br>2.mapper.xml的命名空间（namespace）是否跟mapper接口的包名一致？<br>3.接口的方法名，与xml中的一条sql标签的id一致<br>4.如果接口中的返回值List集合（不知道其他集合也是），那么xml里面的配置，尽量用resultMap（保证resultMap配置正确）,不要用resultType</p><p>5.这个掠过</p><p>都没有作用，后来对比完整项目发现<br>application.properties文件中未写明xml文件配置<br>在文件中加入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mybatis.mapper-locations=classpath:mapper/*.xml</span><br></pre></td></tr></table></figure></p><p>即解决问题。<br><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://upload-images.jianshu.io/upload_images/949864-fd72ab76ea7d7713.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png" title>                </div>                <div class="image-caption">image.png</div>            </figure></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;figure class=&quot;image-bubble&quot;&gt;
+                &lt;div class=&quot;img-lightbox&quot;&gt;
+                    &lt;div class=&quot;overlay&quot;&gt;&lt;/div&gt;
+                   
+      
+    
+    </summary>
+    
+    
+      <category term="springboot" scheme="http://www.mymmm.club/tags/springboot/"/>
+    
+      <category term="java" scheme="http://www.mymmm.club/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hexo-indigo 主题，添加点击出现小桃心效果</title>
+    <link href="http://www.mymmm.club/2019/03/16/2019-03-16%20124919/"/>
+    <id>http://www.mymmm.club/2019/03/16/2019-03-16 124919/</id>
+    <published>2019-03-16T04:49:19.000Z</published>
+    <updated>2019-04-06T11:41:38.440Z</updated>
+    
+    <content type="html"><![CDATA[<p>像<a href="http://mymmm.club" target="_blank" rel="noopener">我这样</a></p><h1 id="我的hexo目录为hexofile"><a href="#我的hexo目录为hexofile" class="headerlink" title="我的hexo目录为hexofile"></a>我的hexo目录为hexofile</h1><hr><h1 id="第一步，新建clicklove-js文件"><a href="#第一步，新建clicklove-js文件" class="headerlink" title="第一步，新建clicklove.js文件"></a>第一步，新建clicklove.js文件</h1><p>在hexofile\themes\indigo\source\js目录下新建clicklove.js文件，将下列代码复制进去。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!function(e,t,a)&#123;function n()&#123;c(&quot;.heart&#123;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);&#125;.heart:after,.heart:before&#123;content: &apos;&apos;;width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;&#125;.heart:after&#123;top: -5px;&#125;.heart:before&#123;left: -5px;&#125;&quot;),o(),r()&#125;function r()&#123;for(var e=0;e&lt;d.length;e++)d[e].alpha&lt;=0?(t.body.removeChild(d[e].el),d.splice(e,1)):(d[e].y--,d[e].scale+=.004,d[e].alpha-=.013,d[e].el.style.cssText=&quot;left:&quot;+d[e].x+&quot;px;top:&quot;+d[e].y+&quot;px;opacity:&quot;+d[e].alpha+&quot;;transform:scale(&quot;+d[e].scale+&quot;,&quot;+d[e].scale+&quot;) rotate(45deg);background:&quot;+d[e].color+&quot;;z-index:99999&quot;);requestAnimationFrame(r)&#125;function o()&#123;var t=&quot;function&quot;==typeof e.onclick&amp;&amp;e.onclick;e.onclick=function(e)&#123;t&amp;&amp;t(),i(e)&#125;&#125;function i(e)&#123;var a=t.createElement(&quot;div&quot;);a.className=&quot;heart&quot;,d.push(&#123;el:a,x:e.clientX-5,y:e.clientY-5,scale:1,alpha:1,color:s()&#125;),t.body.appendChild(a)&#125;function c(e)&#123;var a=t.createElement(&quot;style&quot;);a.type=&quot;text/css&quot;;try&#123;a.appendChild(t.createTextNode(e))&#125;catch(t)&#123;a.styleSheet.cssText=e&#125;t.getElementsByTagName(&quot;head&quot;)[0].appendChild(a)&#125;function s()&#123;return&quot;rgb(&quot;+~~(255*Math.random())+&quot;,&quot;+~~(255*Math.random())+&quot;,&quot;+~~(255*Math.random())+&quot;)&quot;&#125;var d=[];e.requestAnimationFrame=function()&#123;return e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||function(e)&#123;setTimeout(e,1e3/60)&#125;&#125;(),n()&#125;(window,document);</span><br></pre></td></tr></table></figure></p><p>#第二步，在主页面代码中插入js文件<br>打开hexofile\themes\indigo\layout\layout.ejs文件<br>插入js代码，代码为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;/js/clicklove.js&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure></p><p>像我这样<br><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="http://upload-images.jianshu.io/upload_images/949864-be3f2a621752d046.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="如图" title>                </div>                <div class="image-caption">如图</div>            </figure></p><p>#第三步，重新生成hexo文件<br><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="http://upload-images.jianshu.io/upload_images/949864-58cbbc12d236666f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image" title>                </div>                <div class="image-caption">image</div>            </figure><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure></p><p>完事。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;像&lt;a href=&quot;http://mymmm.club&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;我这样&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&quot;我的hexo目录为hexofile&quot;&gt;&lt;a href=&quot;#我的hexo目录为hexofile&quot; class=&quot;he
+      
+    
+    </summary>
+    
+    
+      <category term="hexo" scheme="http://www.mymmm.club/tags/hexo/"/>
     
   </entry>
   
@@ -86,8 +343,8 @@
   
   <entry>
     <title>Ubuntu安装xrdp实现远程连接GUI桌面</title>
-    <link href="http://www.mymmm.club/2019/01/16/Ubuntu%E5%AE%89%E8%A3%85xrdp%E5%AE%9E%E7%8E%B0%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5GUI%E6%A1%8C%E9%9D%A2/"/>
-    <id>http://www.mymmm.club/2019/01/16/Ubuntu安装xrdp实现远程连接GUI桌面/</id>
+    <link href="http://www.mymmm.club/2019/01/16/2019-01-16%20124919/"/>
+    <id>http://www.mymmm.club/2019/01/16/2019-01-16 124919/</id>
     <published>2019-01-16T04:49:19.000Z</published>
     <updated>2019-03-26T09:54:36.313Z</updated>
     
