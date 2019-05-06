@@ -29,12 +29,12 @@
 <meta property="og:site_name" content="木又木木木">
 <meta property="og:description" content="因为一些业务需求，需要将DataSet导出为excel表，从网上查的使用ExcelLibrary可行，但实际测试中总是出现“发现***.xls中的部分内容有问题。是否让我们尽量尝试恢复？如果您信任此工作薄的源，请单击是”的问题，我使用的是office2016。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/949864-55e0cfd7ff99aed2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-04-06T12:27:37.546Z">
+<meta property="og:image" content="https://amumu-1255870555.file.myqcloud.com/201905/20190506105018.png">
+<meta property="og:updated_time" content="2019-05-06T02:50:25.453Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C#使用ExcelLibrary导出xls文件出现&#39;发现***.xls中的部分内容有问题。是否让我们尽量尝试恢复？&#39;">
 <meta name="twitter:description" content="因为一些业务需求，需要将DataSet导出为excel表，从网上查的使用ExcelLibrary可行，但实际测试中总是出现“发现***.xls中的部分内容有问题。是否让我们尽量尝试恢复？如果您信任此工作薄的源，请单击是”的问题，我使用的是office2016。">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/949864-55e0cfd7ff99aed2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:image" content="https://amumu-1255870555.file.myqcloud.com/201905/20190506105018.png">
     
         <link rel="alternate" type="application/atom+xml" title="木又木木木" href="/atom.xml">
     
@@ -180,9 +180,9 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="http://upload-images.jianshu.io/upload_images/949864-55e0cfd7ff99aed2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="错误信息" title>
+                    <img src="https://amumu-1255870555.file.myqcloud.com/201905/20190506105018.png" alt title>
                 </div>
-                <div class="image-caption">错误信息</div>
+                <div class="image-caption"></div>
             </figure>
 <p>结果无论选择是或否都无响应。<br>后来与自己用excel新建的相同数据的表相对比，发现ExcelLibrary导出的文件非常小，考虑是数据数量问题，干脆直接写入了300行，结果导出文件就能打开了<br>回来经过几次测试，发现这个库存在 一个最小 容量 的问题，具体是多少我也没测试<br>不过我用以下的代码导出的数据是可以正常导出的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">string fileName = &quot;D:\\amumu.xls&quot;;</span><br><span class="line">Workbook workbook = new Workbook();</span><br><span class="line">Worksheet ws = new Worksheet(&quot;amumu&quot;);</span><br><span class="line">for (int j = 0; j &lt; 10; j++)</span><br><span class="line">&#123;</span><br><span class="line">    for (int i = 0; i &lt; 10; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        ws.Cells[i, j] = new Cell(&quot;这是第&quot; + i + &quot;行，第&quot; + j + &quot;列&quot;);</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line">workbook.Worksheets.Add(ws);</span><br><span class="line">workbook.Save(fileName);</span><br><span class="line">Close();</span><br></pre></td></tr></table></figure></p>
 <p>具体是多少就需要大家自己尝试了。</p>
@@ -194,7 +194,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-04-06T12:27:37.546Z" itemprop="dateUpdated">2019-04-06 20:27:37</time>
+    Last updated: <time datetime="2019-05-06T02:50:25.453Z" itemprop="dateUpdated">2019-05-06 10:50:25</time>
 </span><br>
 
 
